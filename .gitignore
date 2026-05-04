@@ -1,4 +1,25 @@
-.DS_store
+# OS
+.DS_Store
+
 # Dependency directories
 node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Test / coverage
+coverage/
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# Local agent / worktree state
+.claude/
+
+# Local env (use .env.example to share variables)
 .env
+.env.*
+!.env.example

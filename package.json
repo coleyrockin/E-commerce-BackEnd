@@ -1,7 +1,7 @@
 {
-  "name": "module-13-challenge-orm",
+  "name": "e-commerce-backend",
   "version": "1.0.0",
-  "description": "Build the back end for an e-commerce site. Working Express.js API and configure it to use Sequelize to interact with a MySQL database.",
+  "description": "RESTful catalog API for an e-commerce site. Express 5, Sequelize 6, MySQL.",
   "main": "server.js",
   "scripts": {
     "test": "node --test",
@@ -13,9 +13,20 @@
     "type": "git",
     "url": "https://github.com/coleyrockin/E-commerce-BackEnd"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "express",
+    "sequelize",
+    "mysql",
+    "rest-api",
+    "nodejs",
+    "orm",
+    "ecommerce"
+  ],
+  "author": "coleyrockin",
   "license": "ISC",
+  "engines": {
+    "node": ">=20"
+  },
   "devDependencies": {
     "nodemon": "^3.1.14"
   },

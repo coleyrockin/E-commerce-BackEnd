@@ -6,8 +6,10 @@ const seedProductTags = require('./product-tag-seeds');
 const sequelize = require('../config/connection');
 
 const seedAll = async () => {
+  // force: true drops and recreates all tables — destructive on real data
   await sequelize.sync({ force: true });
   console.log('\n----- DATABASE SYNCED -----\n');
+
   await seedCategories();
   console.log('\n----- CATEGORIES SEEDED -----\n');
 
@@ -20,7 +22,10 @@ const seedAll = async () => {
   await seedProductTags();
   console.log('\n----- PRODUCT TAGS SEEDED -----\n');
 
-  process.exit(0);
+  await sequelize.close();
 };
 
-seedAll();
+seedAll().catch((err) => {
+  console.error('Seed failed:', err);
+  process.exit(1);
+});
