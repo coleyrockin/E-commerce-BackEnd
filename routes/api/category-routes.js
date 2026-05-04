@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const { Category, Product } = require('../../models');
+const { requireWriteApiKey } = require('../../middleware/write-auth');
+const { validateCategoryPayload, validateIdParam } = require('../../utils/validators');
 
 // GET /api/categories
 router.get('/', async (req, res) => {
@@ -17,47 +19,55 @@ router.get('/', async (req, res) => {
 // GET /api/categories/:id
 router.get('/:id', async (req, res) => {
   try {
+    const id = validateIdParam(req.params.id);
     const category = await Category.findOne({
-      where: { id: req.params.id },
+      where: { id },
       attributes: ['id', 'category_name'],
       include: [{ model: Product, attributes: ['id', 'product_name', 'price', 'stock', 'category_id'] }],
     });
+
     if (!category) return res.status(404).json({ message: 'No category found with this id' });
-    res.json(category);
+    return res.json(category);
   } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+    return res.status(400).json({ message: 'Bad request', error: err.message });
   }
 });
 
 // POST /api/categories
-router.post('/', async (req, res) => {
+router.post('/', requireWriteApiKey, async (req, res) => {
   try {
-    const category = await Category.create({ category_name: req.body.category_name });
-    res.status(201).json(category);
+    const categoryPayload = validateCategoryPayload(req.body);
+    const category = await Category.create(categoryPayload);
+    return res.status(201).json(category);
   } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+    return res.status(400).json({ message: 'Bad request', error: err.message });
   }
 });
 
 // PUT /api/categories/:id
-router.put('/:id', async (req, res) => {
+router.put('/:id', requireWriteApiKey, async (req, res) => {
   try {
-    const [updated] = await Category.update(req.body, { where: { id: req.params.id } });
+    const id = validateIdParam(req.params.id);
+    const categoryPayload = validateCategoryPayload(req.body);
+    const [updated] = await Category.update(categoryPayload, { where: { id } });
+
     if (!updated) return res.status(404).json({ message: 'No category found with this id' });
-    res.json({ message: 'Category updated' });
+    return res.json({ message: 'Category updated' });
   } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+    return res.status(400).json({ message: 'Bad request', error: err.message });
   }
 });
 
 // DELETE /api/categories/:id
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', requireWriteApiKey, async (req, res) => {
   try {
-    const deleted = await Category.destroy({ where: { id: req.params.id } });
+    const id = validateIdParam(req.params.id);
+    const deleted = await Category.destroy({ where: { id } });
+
     if (!deleted) return res.status(404).json({ message: 'No category found with this id' });
-    res.json({ message: 'Category deleted' });
+    return res.json({ message: 'Category deleted' });
   } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+    return res.status(400).json({ message: 'Bad request', error: err.message });
   }
 });
 
