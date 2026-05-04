@@ -1,0 +1,191 @@
+{
+  "info": {
+    "name": "E-Commerce Back End",
+    "description": "RESTful catalog API. Set the `baseUrl` and `writeApiKey` collection variables before running write requests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3001" },
+    { "key": "writeApiKey", "value": "change_me" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/health", "host": ["{{baseUrl}}"], "path": ["api", "health"] }
+      }
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "List products",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/products", "host": ["{{baseUrl}}"], "path": ["api", "products"] }
+          }
+        },
+        {
+          "name": "Get product by id",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/products/1", "host": ["{{baseUrl}}"], "path": ["api", "products", "1"] }
+          }
+        },
+        {
+          "name": "Create product",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-api-key", "value": "{{writeApiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_name\": \"Wool Beanie\",\n  \"price\": 24.99,\n  \"stock\": 30,\n  \"category_id\": 4,\n  \"tagIds\": [3, 6]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/products", "host": ["{{baseUrl}}"], "path": ["api", "products"] }
+          }
+        },
+        {
+          "name": "Update product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-api-key", "value": "{{writeApiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 19.99,\n  \"tagIds\": [1, 3]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/products/1", "host": ["{{baseUrl}}"], "path": ["api", "products", "1"] }
+          }
+        },
+        {
+          "name": "Delete product",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "x-api-key", "value": "{{writeApiKey}}" }],
+            "url": { "raw": "{{baseUrl}}/api/products/1", "host": ["{{baseUrl}}"], "path": ["api", "products", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "List categories",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/categories", "host": ["{{baseUrl}}"], "path": ["api", "categories"] }
+          }
+        },
+        {
+          "name": "Get category by id",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/categories/1", "host": ["{{baseUrl}}"], "path": ["api", "categories", "1"] }
+          }
+        },
+        {
+          "name": "Create category",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-api-key", "value": "{{writeApiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category_name\": \"Outerwear\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/categories", "host": ["{{baseUrl}}"], "path": ["api", "categories"] }
+          }
+        },
+        {
+          "name": "Update category",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-api-key", "value": "{{writeApiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category_name\": \"Outerwear & Coats\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/categories/1", "host": ["{{baseUrl}}"], "path": ["api", "categories", "1"] }
+          }
+        },
+        {
+          "name": "Delete category",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "x-api-key", "value": "{{writeApiKey}}" }],
+            "url": { "raw": "{{baseUrl}}/api/categories/1", "host": ["{{baseUrl}}"], "path": ["api", "categories", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tags",
+      "item": [
+        {
+          "name": "List tags",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/tags", "host": ["{{baseUrl}}"], "path": ["api", "tags"] }
+          }
+        },
+        {
+          "name": "Get tag by id",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/api/tags/1", "host": ["{{baseUrl}}"], "path": ["api", "tags", "1"] }
+          }
+        },
+        {
+          "name": "Create tag",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-api-key", "value": "{{writeApiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tag_name\": \"limited edition\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/tags", "host": ["{{baseUrl}}"], "path": ["api", "tags"] }
+          }
+        },
+        {
+          "name": "Update tag",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-api-key", "value": "{{writeApiKey}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tag_name\": \"sale\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/api/tags/1", "host": ["{{baseUrl}}"], "path": ["api", "tags", "1"] }
+          }
+        },
+        {
+          "name": "Delete tag",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "x-api-key", "value": "{{writeApiKey}}" }],
+            "url": { "raw": "{{baseUrl}}/api/tags/1", "host": ["{{baseUrl}}"], "path": ["api", "tags", "1"] }
+          }
+        }
+      ]
+    }
+  ]
+}

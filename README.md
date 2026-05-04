@@ -26,7 +26,7 @@ The API has no UI; it is consumed by HTTP clients (Insomnia, Postman, `curl`, or
 - **Sequelize ORM** — model definitions with associations and column constraints
 - **Many-to-Many** — products and tags linked through a `ProductTag` junction table
 - **Database Seeding** — one-command schema sync and seed data
-- **Security Baseline** — `x-powered-by` disabled, baseline security headers, JSON body size limits, generic error handling
+- **Security Baseline** — `helmet` security headers, configurable CORS allowlist, JSON body size limits, request logging via `morgan`, and rate limiting on `/api` routes
 
 ## Tech Stack
 
@@ -66,6 +66,10 @@ npm run watch      # nodemon
 ```
 
 Server listens on `http://localhost:3001`.
+
+## Postman collection
+
+A ready-to-import collection lives at [`docs/postman_collection.json`](./docs/postman_collection.json). After importing, set the `baseUrl` and `writeApiKey` collection variables and every request just works.
 
 ## Try it (curl)
 
@@ -126,8 +130,8 @@ Covers the write-key middleware and the input-validation layer (allowlist, type 
 
 ## Security Notes
 
-A separate audit lives in [`docs/SECURITY_AUDIT.md`](./docs/SECURITY_AUDIT.md).
-Hardening already applied: parameterized ORM operations, body-size limits, security headers, write-key auth with constant-time compare, allowlist validation on every write.
+A separate audit lives in [`docs/SECURITY_AUDIT.md`](./docs/SECURITY_AUDIT.md). Reporting guidelines are in [`SECURITY.md`](./SECURITY.md).
+Hardening applied: parameterized ORM operations, allowlist validation on every write, write-key auth with constant-time compare, body-size limits, `helmet` security headers, configurable CORS allowlist, request logging via `morgan`, and `express-rate-limit` on `/api` routes (100 req / 15 min by default; health check is exempt).
 
 ## Project Structure
 
@@ -156,9 +160,8 @@ E-commerce-BackEnd/
 ## Future Improvements
 
 - Replace single-key write protection with proper user auth (JWT + roles).
-- Add OpenAPI spec and Postman/Insomnia collection in `docs/`.
+- Add OpenAPI spec.
 - Use real schema migrations (`umzug` or `sequelize-cli`) instead of `sync()` in production.
-- Add `helmet`, `cors`, `morgan`, and `express-rate-limit` once a deployment target is chosen.
 - Add integration tests against routes (supertest + sqlite test DB).
 - Pagination on list endpoints.
 
